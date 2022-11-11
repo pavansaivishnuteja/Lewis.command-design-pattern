@@ -1,2 +1,29 @@
-# Lewis.command-design-pattern
-A command design pattern is a behavioral design pattern in which an object is used to represent and encapsulate a request. This enables the request to be handled in a standard way, without the need for the sender of the request to know the receiver or the details of how the request is handled.
+public class Command {
+  
+  private String methodName;
+  private Object[] params;
+  private Object object;
+  
+  public Command(String methodName, Object[] params, Object object) {
+    this.methodName = methodName;
+    this.params = params;
+    this.object = object;
+  }
+  
+  public void execute() {
+    try {
+      Method method = object.getClass().getMethod(methodName, getParamTypes(params));
+      method.invoke(object, params);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  
+  private Class[] getParamTypes(Object[] params) {
+    Class[] paramTypes = new Class[params.length];
+    for (int i = 0; i < params.length; i++) {
+      paramTypes[i] = params[i].getClass();
+    }
+    return paramTypes;
+  }
+}
